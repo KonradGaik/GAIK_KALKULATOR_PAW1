@@ -17,7 +17,7 @@ $messages[] = 'Nie podano loginu';
 
 if($form['pass'] ==""){}
 $messages[] = 'Nie podano hasła';
-}
+
 if (count ( $messages ) > 0) return false;
 
 	if ($form['login'] == "admin" && $form['pass'] == "admin") {
@@ -33,7 +33,6 @@ if (count ( $messages ) > 0) return false;
 	
 	$messages [] = 'Niepoprawny login lub hasło';
 	return false; 
-}
 
 $form = array();
 $messages = array();

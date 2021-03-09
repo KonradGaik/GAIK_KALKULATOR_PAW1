@@ -11,18 +11,11 @@ function getParams(&$x,&$y,&$z,&$period_of_time){
 	$period_of_time = isset($_REQUEST['per']) ? $_REQUEST['per'] : null;	
 }
 
-
-
-
-
-//walidacja parametrów z przygotowaniem zmiennych dla widoku
 function validate(&$x,&$y,&$z,&$messages){
-	// sprawdzenie, czy parametry zostały przekazane
 	if ( ! (isset($x) && isset($y) && isset($z)&& isset($messages))) {
 		return false;
 	}
 
-	// sprawdzenie, czy potrzebne wartości zostały przekazane
 	if ( $x == "") {
 		$messages [] = 'Nie podano kwoty kredytu';
 	}
@@ -48,7 +41,7 @@ function validate(&$x,&$y,&$z,&$messages){
 		$messages [] = 'Oprocentowanie nie jest liczbą całkowitą';
 	}	
 
-	if (count ( $messages ) != 0) return false;
+	if(count ( $messages ) != 0) return false;
 	else return true;
 }
 
@@ -59,7 +52,7 @@ function process(&$x,&$y,&$z,&$period_of_time,&$messages,&$result,&$interest,&$t
 	$y = intval($y);
 	$z = intval($z);
 	$time = intval($time);
-	//wykonanie operacji
+
 	switch ($period_of_time) {
 		case 'months' :
 			if ($role == 'admin'){
@@ -88,11 +81,8 @@ $y = null;
 $period_of_time = null;
 $result = null;
 $messages = array();
-
 getParams($x,$y,$z,$period_of_time);
 if ( validate($x,$y,$z,$messages) ) { 
 	process($x,$y,$z,$period_of_time,$messages,$result,$interest,$time);
 }
-
-
 include 'calc_view.php'; ?>

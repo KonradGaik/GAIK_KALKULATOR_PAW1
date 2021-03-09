@@ -1,5 +1,5 @@
 
-<html>
+<!DOCTYPE html>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 <style>
@@ -12,6 +12,7 @@ h1{width: 500px;
 	background-color: #ff0;
 padding: 0 0 25px 0;}
 form{padding: 25px 0 0 0;}
+
 .przycisk{width: 25vh;
 height: 10vh;
 font-size: 30px;
@@ -33,7 +34,7 @@ color:aqua;}
 <body>
 	
 <div style="width:90%; margin: 2em auto;">
-	<a href="<?php print(APP_ROOT); ?>/app/inna_chroniona.php" class="pure-button">kolejna chroniona strona</a>
+	<a href="<?php print(APP_ROOT); ?>/app/inna_chroniona.php" class="pure-button">inne projekty</a>
 	<a href="<?php print(APP_ROOT); ?>/app/security/logout.php" class="pure-button pure-button-active">Wyloguj</a>
 </div>
 
@@ -44,11 +45,11 @@ color:aqua;}
 <input id="id_x" type="text" name="x" value="<?php if (isset($x)) print($x); ?>" /> </br>
  <label for="id_per">Liczba </label>
 <select name="per">
-<option value="months"<?php if ($period == 'months') echo'selected' ?> > miesięcy</option>
-<option value="years"<?php if ($period == 'years') echo'selected' ?> > lat</option>
+<option value="months"<?php if ($period_of_time == 'months') echo'selected' ?> > miesięcy</option>
+<option value="years"<?php if ($period_of_time == 'years') echo'selected' ?> > lat</option>
 </select> 
 <label for="id_y"> </label>
-<input id="id_y" type="text" name="y"  value="<?php if(isset($y)&&($period == 'months')){ print($y);} else {print($y/12);} ?>" /> </br>
+<input id="id_y" type="text" name="y"  value="<?php if(isset($y)&&($period_of_time == 'months')){ print($y);} else {print($y/12);} ?>" /> </br>
 <label for="id_z">Oprocentowanie: </label>
 <input id="id_z" type="text" name="z" value="<?php if(isset($z)) print($z); ?>" /> </br>
 <input class="przycisk" type="submit" value="Oblicz"  class="pure-button pure-button-primary"/>
