@@ -1,59 +1,98 @@
 <?php
 require_once dirname(__FILE__).'/../config.php';
-
-$x = $_REQUEST ['x']; //kwota
-$y = $_REQUEST ['y']; //czas
-$z = $_REQUEST ['z']; //oprocentowanie
-$period_of_time = $_REQUEST['per'];
+include ROOT_PATH.'/app/security/check.php';
 
 
-if ( ! (isset($x) && isset($y) && isset($z))) {
-	$messages [] = 'Brak jednego z parametrów.';
+
+function getParams(&$x,&$y,&$z,&$period_of_time){
+	$x = isset($_REQUEST['x']) ? $_REQUEST['x'] : null;
+	$y = isset($_REQUEST['y']) ? $_REQUEST['y'] : null;
+	$z = isset($_REQUEST['z']) ? $_REQUEST['z'] : null;
+	$period_of_time = isset($_REQUEST['per']) ? $_REQUEST['per'] : null;	
 }
 
-if ( $x == "") {
-	$messages [] = 'Nie podano wysokości udzielonego kredytu.';
-}
-if ( $y == "") {
-	$messages [] = 'Nie podano czasu trwania kredytu.';
-}
 
-if ( $z == "") {
-	$messages [] = 'Nie podano oprocentowania kredytu.';
-}
 
-if (empty( $messages )) {
-	
-	if (! is_numeric( $x )) {
-		$messages [] = 'Pierwsza wartość nie jest liczbą całkowitą';
+
+
+//walidacja parametrów z przygotowaniem zmiennych dla widoku
+function validate(&$x,&$y,&$z,&$messages){
+	// sprawdzenie, czy parametry zostały przekazane
+	if ( ! (isset($x) && isset($y) && isset($z)&& isset($messages))) {
+		return false;
 	}
+
+	// sprawdzenie, czy potrzebne wartości zostały przekazane
+	if ( $x == "") {
+		$messages [] = 'Nie podano kwoty kredytu';
+	}
+	if ( $y == "") {
+		$messages [] = 'Czasu trwania kredytu';
+	}
+
+	if ( $z == "") {
+		$messages [] = 'Nie podano oprocentowania';
+	}
+
+	if (count ( $messages ) != 0) {return false;}
+	
+
+	if (! is_numeric( $x )) {
+		$messages [] = 'Wartość wysokości kredytu nie jest liczbą całkowitą';
+	}
+	
 	if (! is_numeric( $y )) {
-		$messages [] = 'Druga wartość nie jest liczbą całkowitą';
+		$messages [] = 'Długość trwania kredytu nie jest liczbą całkowitą';
 	}	
-    if (! is_numeric( $z )) {
-		$messages [] = 'Trzecia wartość nie jest liczbą całkowitą';
+	if (! is_numeric( $y )) {
+		$messages [] = 'Oprocentowanie nie jest liczbą całkowitą';
 	}	
 
+	if (count ( $messages ) != 0) return false;
+	else return true;
 }
 
-if (empty ( $messages )) {
-
+function process(&$x,&$y,&$z,&$period_of_time,&$messages,&$result,&$interest,&$time){
+	
+	global $role;
 	$x = intval($x);
-	$y = floatval($y);
-    $z = floatval($z);
-    
-	switch($period_of_time){
-case 'months':
-    $result = $x*(1+($z*($y/12))/100)/$y;
-   $interest = $x*(1+($z*($y/12))/100)-$x;
-   $time = 'Miesięczna ';
-	break;
-case 'years':
-   $result = $x*(1+(($z*$y)/100))/$y;
-   $interest = $x*(1+(($z*$y)/100))-$x;
-   $time = 'Roczna ';
-	break;
-}    
+	$y = intval($y);
+	$z = intval($z);
+	$time = intval($time);
+	//wykonanie operacji
+	switch ($period_of_time) {
+		case 'months' :
+			if ($role == 'admin'){
+				$result = $x*(1+($z*($y/12))/100)/$y;
+				$interest = $x*(1+($z*($y/12))/100)-$x;
+				$time = 'Miesięczna ';
+			} else {
+				$messages [] = 'Tylko administrator moze uzyc kalkulatora !';
+			}
+			break;
+	
+		case 'years' :
+			if ($role == 'admin'){
+				$result = $x*(1+(($z*$y)/100))/$y;
+				$interest = $x*(1+(($z*$y)/100))-$x;
+				$time = 'Roczna ';
+			} else {
+				$messages [] = 'Tylko administrator moze uzyc kalkulatora!';
+			}
+			break;
+	
+	}
 }
-include 'calc_view.php';
-?>
+$x = null;
+$y = null;
+$period_of_time = null;
+$result = null;
+$messages = array();
+
+getParams($x,$y,$z,$period_of_time);
+if ( validate($x,$y,$z,$messages) ) { 
+	process($x,$y,$z,$period_of_time,$messages,$result,$interest,$time);
+}
+
+
+include 'calc_view.php'; ?>
