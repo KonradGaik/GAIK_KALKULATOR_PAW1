@@ -11,7 +11,7 @@ function getParams(&$x,&$y,&$z,&$period_of_time){
 
 }
 
-function validate(&$x,&$y,&$period_of_time,&$messages){
+function validate(&$x,&$y,&$z,&$period_of_time,&$messages){
 
 	if ( ! (isset($x) && isset($y) && isset($z) && isset($period_of_time))) {
 
