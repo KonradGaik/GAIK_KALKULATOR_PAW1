@@ -1,45 +1,45 @@
 <?php
 require_once dirname(__FILE__).'/../config.php';
+require_once ROOT_PATH.'/lib/smarty/Smarty.class.php';
+//include ROOT_PATH.'/app/security/check.php';
 
-include ROOT_PATH.'/app/security/check.php';
-
-function getParams(&$x,&$y,&$z,&$period_of_time){
-	$x = isset($_REQUEST['x']) ? $_REQUEST['x'] : null;
-	$y = isset($_REQUEST['y']) ? $_REQUEST['y'] : null;
-	$z = isset($_REQUEST['z']) ? $_REQUEST['z'] : null;	
-	$period_of_time = isset($_REQUEST['per']) ? $_REQUEST['per'] : null;	
+function getParams(&$form){
+	$form['x'] = isset($_REQUEST['x']) ? $_REQUEST['x'] : null;
+	$form['y'] = isset($_REQUEST['y']) ? $_REQUEST['y'] : null;
+	$form['z'] = isset($_REQUEST['z']) ? $_REQUEST['z'] : null;	
+	$form['period_of_time'] = isset($_REQUEST['per']) ? $_REQUEST['per'] : null;	
 
 }
 
-function validate(&$x,&$y,&$z,&$period_of_time,&$messages){
+function validate(&$form,&$messages){
 
-	if ( ! (isset($x) && isset($y) && isset($z) && isset($period_of_time))) {
+	if ( ! (isset($form['x']) && isset($form['y']) && isset([$form['z']) && isset($form['period_of_time'))) 
 
 		return false;
-	}
+	
+	$hide_intro = true;
 
-
-	if ( $x == "") {
+	if ( $form['x'] == "") {
 		$messages [] = 'Nie podano kwoty kredytu.';
 	}
-	if ( $y == "") {
+	if ( $form['y'] == "") {
 		$messages [] = 'Nie podano okresu czasu.';
 	}
-	if ( $z == "") {
+	if ( [$form['z'] == "") {
 		$messages [] = 'Nie podano oprocentowania.';
 	}
 
 	if (count ( $messages ) != 0) return false;
 	
 
-	if (! is_numeric( $x )) {
+	if (! is_numeric( $form['x'] )) {
 		$messages [] = 'Wartość kredytu nie jest liczbą całkowitą';
 	}
 	
-	if (! is_numeric( $y )) {
+	if (! is_numeric( $form['y'] )) {
 		$messages [] = 'Okres czasu nie jest liczbą całkowitą';
 	}	
-	if (! is_numeric( $z )) {
+	if (! is_numeric( $form['z'] )) {
 		$messages [] = 'Oprocentowanie nie jest liczbą całkowitą';
 	}	
 
@@ -48,45 +48,67 @@ function validate(&$x,&$y,&$z,&$period_of_time,&$messages){
 	else return true;
 }
 
-function process(&$x,&$y,&$z,&$period_of_time,&$messages,&$result,&$interest,&$time){
+function process(&$form,&$messages,&$result,&$interest,&$time){
 	global $role;
 	
-	$x = intval($x);
-	$y = intval($y);
-	$z = intval($z);
+	$form['x'] = intval(['x']);
+	$form['y'] = intval('y');
+	$form['z'] = intval('z');
 
-	switch ($period_of_time) {
+	$form['x'] 
+	$form['y']
+	$form['z']
+
+
+	switch ($form['period_of_time']) {
 		case 'months' :
-			if ($role == 'admin'){
-				$result = $x*(1+($z*($y/12))/100)/$y;
-				$interest = $x*(1+($z*($y/12))/100)-$x;
+		//	if ($role == 'admin'){
+				$result = $form['x'] *(1+($form['z']*($form['y']/12))/100)/$form['y'];
+				$interest = $form['x'] *(1+($form['z']*($form['y']/12))/100)-$form['x'] ;
 				$time= 'Miesięczna';
-			} else {
-				$messages [] = 'Tylko administrator moze uzyc kalkulatora kredytowego!';
-			}
+		//	} else {
+		//		$messages [] = 'Tylko administrator moze uzyc kalkulatora kredytowego!';
+		//	}
 			break;
 		case 'years' :
-			if ($role == 'admin'){
-				$result = $x*(1+(($z*$y)/100))/$y;
-				$interest = $x*(1+(($z*$y)/100))-$x;
+		//	if ($role == 'admin'){
+				$result = $form['x'] *(1+(($form['z']*$form['y'])/100))/$form['y'];
+				$interest = $form['x']*(1+(($form['z']*$form['y'])/100))-$form['x'] ;
 				$time= 'Roczna';
-			} else {
-				$messages [] = 'Tylko administrator moze uzyc kalkulatora kredytowego!';
-			}
+		//	} else {
+		//		$messages [] = 'Tylko administrator moze uzyc kalkulatora kredytowego!';
+		//	}
 			break;
 	}
 }
 
-$x = null;
-$y = null;
-$z = null;
-$period_of_time = null;
+$form = null;
 $result = null;
 $messages = array();
+$hide_intro = null;
 
-getParams($x,$y,$z,$period_of_time);
-if ( validate($x,$y,$z,$period_of_time,$messages) ) {
-	process($x,$y,$z,$period_of_time,$messages,$result,$interest,$time);
+getParams($form);
+if ( validate($form,$messages) ) {
+	process($form,$messages,$result,$interest,$time);
 }
 
-include 'calc_view.php';
+$smarty = new Smarty();
+
+$smarty->assign('app_url',APP_URL);
+$smarty->assign('root_path',ROOT_PATH);
+$smarty->assign('page_title','Kalkulator kredytowy');
+$smarty->assign('page_description','Profesjonalne narzedzie do wyliczania rat kredytu.');
+$smarty->assign('page_header','Z wykorzystaniem szablonu Smarty');
+
+$smarty->assign('hide_intro',$hide_intro);
+
+$smarty->assign('form',$form);
+$smarty->assign('result',$result);
+$smarty->assign('messages',$messages);
+
+$smarty->display(ROOT_PATH.'/app/calc.html');
+
+
+
+
+//include 'calc_view.php';
