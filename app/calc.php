@@ -13,7 +13,8 @@ function getParams(&$form){
 
 function validate(&$form,&$messages){
 
-	if ( ! (isset($form['x']) && isset($form['y']) && isset([$form['z']) && isset($form['period_of_time'))) 
+	if ( ! (isset($form['x']) && isset($form['y']) && isset([$form['z']) && isset($form['period_of_time'])))
+	 
 
 		return false;
 	
@@ -55,9 +56,9 @@ function process(&$form,&$messages,&$result,&$interest,&$time){
 	$form['y'] = intval('y');
 	$form['z'] = intval('z');
 
-	$form['x'] 
-	$form['y']
-	$form['z']
+	$form['x'];
+	$form['y'];
+	$form['z'];
 
 
 	switch ($form['period_of_time']) {
@@ -109,6 +110,4 @@ $smarty->assign('messages',$messages);
 $smarty->display(ROOT_PATH.'/app/calc.html');
 
 
-
-
-//include 'calc_view.php';
+include 'calc_view.php';

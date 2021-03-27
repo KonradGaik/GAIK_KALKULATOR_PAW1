@@ -1,6 +1,5 @@
 <?php
-//Tu już nie ładujemy konfiguracji - sam widok nie będzie już punktem wejścia do aplikacji.
-//Wszystkie żądania idą do kontrolera, a kontroler wywołuje skrypt widoku.
+
 ?>
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
