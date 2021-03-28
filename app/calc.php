@@ -107,7 +107,7 @@ $smarty->assign('form',$form);
 $smarty->assign('result',$result);
 $smarty->assign('messages',$messages);
 
-$smarty->display(ROOT_PATH.'/app/calc.html');
+$smarty->display(ROOT_PATH.'/app/calc.tpl');
 
 
-include 'calc_view.php';
+// include 'calc_view.php';
