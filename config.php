@@ -1,5 +1,5 @@
 <?php
-require_once 'Config.class.php';
+require_once 'Conf.class.php';
 
 $conf = new Config();
 
