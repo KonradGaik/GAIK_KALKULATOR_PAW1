@@ -1,8 +1,12 @@
 <?php
-define('SERVER_NAME', '192.168.64.2/');
-define('SERVER_URL', 'http://'.SERVER_NAME);
-define('APP_ROOT', '/GAIK_KALKULATOR_PAW1');
-define('APP_URL', SERVER_URL.APP_ROOT);
-define("ROOT_PATH", dirname(__FILE__));
+require_once 'Config.class.php';
+
+$conf = new Config();
+
+$conf->root_path =dirname(__FILE__);
+$conf->server_name = '192.168.64.2/';
+$conf->server_url = 'http://'.$conf->server_name;
+$conf->app_root = '/GAIK_KALKULATOR_PAW1';
+$conf->app_url = $conf->server_url.$conf->app_root;
 
 ?>
