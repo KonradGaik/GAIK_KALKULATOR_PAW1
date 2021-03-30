@@ -1,0 +1,98 @@
+<?php 
+
+require_once $conf->root_path.'/lib/smarty/Smarty.class.php';
+require_once $conf->root_path.'/lib/Messages.class.php';
+require_once $conf->root_path.'/app/CalcForm.class.php';
+require_once $conf->root_path.'/app/CalcResult.class.php';
+
+class CalcCtrl{
+private $msgs;
+private $form;
+private $result;
+
+
+
+public function __construct(){
+$this->msgs = new Messages();
+$this->form = new CalcForm();
+$this->result = new CalcResult();
+}
+
+public function getParams(){
+$this -> form->x = isset($_REQUEST['x']) ? $_REQUEST['x'] : null;
+$this -> form->y = isset($_REQUEST['y']) ? $_REQUEST['y'] : null;
+$this -> form->z = isset($_REQUEST['z']) ? $_REQUEST['z'] : null;
+$this -> form->period_of_time = isset($_REQUEST['period_of_time']) ? $_REQUEST['period_of_time'] : null; //per = period_of_time
+}
+
+public function validate(){
+    if (! (isset ( $this->form->x ) && isset ( $this->form->y ) && isset ( $this->form->z )&& isset ( $this->form->period_of_time ))){
+return false;
+    }
+    if($this->form->x==""){
+        $this->msgs->addError('Nie podano kwoty kredytu.');
+    }
+    if ($this->form->y==""){
+        $this->msgs->addError('Nie podano czasu trwania kredytu.');}
+
+    if  ($this->form->z==""){
+        $this->msgs->addError('Nie podano oprocentowania kredytu.');
+    }
+        if(! $this->msgs->isError()){
+            if(!is_numeric($this->form->x)){
+                $this->msgs->addError('Kwota kredytu nie jest liczba calkowita. ');}
+                if(!is_numeric($this->form->x)){
+                    $this->msgs->addError('Czas trwania kredytu nie jest liczba calkowita. ');}
+                    if(!is_numeric($this->form->z)){
+                        $this->msgs->addError('Oprocentowanie kredytu nie jest liczba calkowita. ');}
+                        
+            }
+        }
+return ! $this->msgs->isError();
+    }
+        
+
+
+public function process(){
+$this ->getParams();
+if($this->validate()){
+$this->form->x =;
+$this->form->y =;
+$this->form->z =;
+$this->msgs->addInfo('Parametry poprawne.')
+
+
+//obliczanie
+switch($this->form->time){
+case 'years';
+$this->result->result = $this->form->x
+case 'months';
+$this->result->result = $this
+}
+
+}
+
+}
+
+public function generateView(){
+    {
+		global $conf;
+		
+		$smarty = new Smarty();
+		$smarty->assign('conf',$conf);
+		
+		$smarty->assign('page_title','Kalkulator');
+		$smarty->assign('page_description','Kalkulator kredytowy w PHP');
+		$smarty->assign('page_header','Obiekty w PHP');
+				
+		$smarty->assign('msgs',$this->msgs);
+		$smarty->assign('form',$this->form);
+		$smarty->assign('res',$this->result);
+		
+		$smarty->display($conf->root_path.'/app/CalcView.html');
+	}
+
+}
+}
+
+?>
