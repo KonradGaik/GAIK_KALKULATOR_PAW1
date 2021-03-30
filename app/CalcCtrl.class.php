@@ -44,13 +44,11 @@ return false;
                 if(!is_numeric($this->form->x)){
                     $this->msgs->addError('Czas trwania kredytu nie jest liczba calkowita. ');}
                     if(!is_numeric($this->form->z)){
-                        $this->msgs->addError('Oprocentowanie kredytu nie jest liczba calkowita. ');}
+                        $this->msgs->addError('Oprocentowanie kredytu nie jest liczba calkowita.');}
                         
             }
-        }
-return ! $this->msgs->isError();
+        }return ! $this->msgs->isError();
     }
-        
 
 
 public function process(){
@@ -59,7 +57,7 @@ if($this->validate()){
 $this->form->x =;
 $this->form->y =;
 $this->form->z =;
-$this->msgs->addInfo('Parametry poprawne.')
+$this->msgs->addInfo('Parametry poprawne.');
 
 
 //obliczanie
@@ -74,10 +72,8 @@ $this->result->result = $this
 
 }
 
-public function generateView(){
-    {
-		global $conf;
-		
+public function generateView(){    
+    {global $conf;	
 		$smarty = new Smarty();
 		$smarty->assign('conf',$conf);
 		
@@ -91,8 +87,6 @@ public function generateView(){
 		
 		$smarty->display($conf->root_path.'/app/CalcView.html');
 	}
-
-}
 }
 
 ?>
