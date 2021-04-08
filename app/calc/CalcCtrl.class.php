@@ -10,8 +10,6 @@ private $msgs;
 private $form;
 private $result;
 
-
-
 public function __construct(){
 $this->msgs = new Messages();
 $this->form = new CalcForm();
@@ -44,30 +42,37 @@ return false;
                 if(!is_numeric($this->form->x)){
                     $this->msgs->addError('Czas trwania kredytu nie jest liczba calkowita. ');}
                     if(!is_numeric($this->form->z)){
-                        $this->msgs->addError('Oprocentowanie kredytu nie jest liczba calkowita.');}
-                        
+                        $this->msgs->addError('Oprocentowanie kredytu nie jest liczba calkowita.');
+                    }    
             }
-        }return ! $this->msgs->isError();
-    }
+            return $this->msgs->isError();
+        }
+    
 
 
 public function process(){
 $this ->getParams();
 if($this->validate()){
-$this->form->x =;
-$this->form->y =;
-$this->form->z =;
+$this->form->x = isset($_REQUEST['x']) ? $_REQUEST ['x'] :null;
+$this->form->y = isset($_REQUEST['y']) ? $_REQUEST ['y'] :null;
+$this->form->z = isset($_REQUEST['z']) ? $_REQUEST ['z'] :null;
+$this->form->period_of_time = isset($_REQUEST['period_of_time']) ? $_REQUEST ['period_of_time'] :null;
 $this->msgs->addInfo('Parametry poprawne.');
-
-
-//obliczanie
-switch($this->form->time){
-case 'years';
-$this->result->result = $this->form->x
-case 'months';
-$this->result->result = $this
 }
 
+//obliczanie
+switch($this->form->period_of_time){
+case 'years';
+$this->result->result = (($this->form->x)*(1+($this->form->z))*((($this->form->y)/12)/100))/($this->form->y);
+$this->result->time = 'Roczna ';
+$this->result->interest = ($this->form->x)*(1+(($this->form->z)*($this->form->y)/100)-($this->form->x)) ;
+break;
+
+case 'months';
+$this->result->result = ($this->form->x)*((1+($this->form->z))*(($this->form->y)/12)/100);
+$this->result->time = 'Miesieczna ';
+$this->result->interest = ($this->form->x*(1+($this->form->z*($this->form->y/(12))))-$this->form->x);
+break;
 }
 
 }
@@ -87,6 +92,7 @@ public function generateView(){
 		
 		$smarty->display($conf->root_path.'/app/CalcView.html');
 	}
+}
 }
 
 ?>
