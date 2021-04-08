@@ -30,6 +30,7 @@ return false;
     if($this->form->x==""){
         $this->msgs->addError('Nie podano kwoty kredytu.');
     }
+
     if ($this->form->y==""){
         $this->msgs->addError('Nie podano czasu trwania kredytu.');}
 
