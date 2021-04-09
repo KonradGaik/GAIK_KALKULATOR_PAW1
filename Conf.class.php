@@ -5,5 +5,8 @@ class Config{
     public $server_url;
     public $app_root;
     public $app_url;
+
+    public $action_root;
+    public $action_url;
 }
 ?>
