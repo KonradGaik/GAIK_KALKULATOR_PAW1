@@ -7,7 +7,7 @@
 
 <div>
 
-<form action="{$app_url}/app/calc.php" method="post" >
+<form action="{$conf->action_root}calcCompute" method="post" >
 	<legend>Kalkulator</legend>
 	<fieldset>
 		<label for="wysokosc_kredytu">Wysokość kredytu: </label>

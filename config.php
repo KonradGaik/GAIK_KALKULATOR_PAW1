@@ -1,7 +1,7 @@
 <?php
-require_once 'Conf.class.php';
+// require_once 'Conf.class.php';
 
-$conf = new Config();
+// $conf = new Config();
 
 $conf->root_path =dirname(__FILE__);
 $conf->server_name = '192.168.64.2';
