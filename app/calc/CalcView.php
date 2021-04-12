@@ -1,4 +1,4 @@
-{extends file="..\template\main.tpl"}
+{extends file="..\template\main.html"}
 
 {block name=footer} Kalkulator 2021{\block}
 

@@ -1,11 +1,11 @@
-<?php
 
-require_once dirname(__FILE__).'/../config.php';
 
-require_once $conf->root_path.'/app/CalcCtrl.class.php';
+//require_once $conf->app_url.'/config.php';
 
-$ctrl = new CalcCtrl();
-$ctrl->process();
+//require_once $conf->root_path.'/calc/CalcCtrl.class.php';
+
+//$ctrl = new CalcCtrl();
+//$ctrl->process(); -->
 
 
 // 
