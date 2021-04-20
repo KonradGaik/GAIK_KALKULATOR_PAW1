@@ -18,5 +18,6 @@ switch ($action) {
 		$ctrl = new CalcCtrl ();
 		$ctrl->process ();
 	break;
+}
 
     ?>
