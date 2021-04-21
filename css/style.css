@@ -1,57 +1,21 @@
-/* Custom Stylesheet */
-/**
- * Use this file to override Materialize files so you can update
- * the core Materialize files in the future
- *
- * Made By MaterializeCSS.com
- */
-
-nav ul a,
-nav .brand-logo {
-  color: #444;
+.messages{
+	border-radius: 0.2em;
+	padding: 0.5em;
+	font-style: bold;
 }
 
-p {
-  line-height: 2rem;
+.error{
+	background-color: #faa;
 }
 
-.sidenav-trigger {
-  color: #26a69a;
+.info{
+	background-color: #afa;
 }
 
-.parallax-container {
-  min-height: 380px;
-  line-height: 0;
-  height: auto;
-  color: rgba(255,255,255,.9);
-}
-  .parallax-container .section {
-    width: 100%;
-  }
-
-@media only screen and (max-width : 992px) {
-  .parallax-container .section {
-    position: absolute;
-    top: 40%;
-  }
-  #index-banner .section {
-    top: 10%;
-  }
+.bottom-margin{
+	margin-bottom: 1em;
 }
 
-@media only screen and (max-width : 600px) {
-  #index-banner .section {
-    top: 0;
-  }
-}
-
-.icon-block {
-  padding: 0 15px;
-}
-.icon-block .material-icons {
-  font-size: inherit;
-}
-
-footer.page-footer {
-  margin: 0;
+.top-margin{
+	margin-top: 1em;
 }
