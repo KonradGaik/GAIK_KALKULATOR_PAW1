@@ -78,6 +78,37 @@ break;
 
 }
 
+$database = new Medoo([
+	// required
+	'database_type' => 'mysql',
+	'database_name' => 'name',
+	'server' => 'localhost',
+	'username' => 'host',
+	'password' => '',
+ 
+	// [optional]
+	'charset' => 'utf8mb4',
+	'collation' => 'utf8mb4_polish_ci',
+	'port' => 8080,
+ 
+	// [optional] Table prefix
+	'prefix' => 'PREFIX_',
+ 
+	// [optional] Enable logging (Logging is disabled by default for better performance)
+	'logging' => true,
+ 
+	// [optional] driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php
+	'option' => [
+		PDO::ATTR_CASE => PDO::CASE_NATURAL
+	]
+]);
+ 
+$database->insert("account", [
+	"user_name" => "foo",
+	"email" => "foo@bar.com"
+]);
+
+
 public function generateView(){    
     {global $conf;	
 		$smarty = new Smarty();
